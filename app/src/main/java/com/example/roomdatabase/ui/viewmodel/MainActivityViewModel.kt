@@ -10,10 +10,10 @@ class MainActivityViewModel(private val productRepository: ProductRepository) : 
     private val _listProducts = MutableLiveData<List<Product>>()
     val listProduct: LiveData<List<Product>> get() = _listProducts
 
-    fun saveProduct(product: Product) {
+    fun saveProduct(nameProduct: String) {
         viewModelScope.launch {
             try {
-                val listProducts = productRepository.createProduct(product)
+                val listProducts = productRepository.insertProduct(nameProduct)
                 _listProducts.value = listProducts
             } catch (e: Exception) {
                 Log.e("Erro", "$e")
@@ -38,6 +38,18 @@ class MainActivityViewModel(private val productRepository: ProductRepository) : 
 
     fun productItem(position: Int): Product {
         return _listProducts.value!![position]
+    }
+
+    fun markCompleted(product: Product) {
+        viewModelScope.launch {
+            try {
+                _listProducts.value = productRepository.markCompleted(product)
+            } catch (e: Exception) {
+                Log.e("Erro", "$e")
+
+            }
+
+        }
     }
 
     class MainActivityViewModelFactory(private val productRepository: ProductRepository) :

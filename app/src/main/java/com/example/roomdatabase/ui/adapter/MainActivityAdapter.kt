@@ -3,6 +3,8 @@ package com.example.roomdatabase.ui.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.roomdatabase.R
 import com.example.roomdatabase.model.Product
@@ -25,13 +27,32 @@ class MainActivityAdapter(private val viewModel: MainActivityViewModel) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val product = viewModel.productItem(position)
         holder.bindView(product)
+
+        holder.itemView.im_complete.setOnClickListener {
+            viewModel.markCompleted(product)
+        }
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val nameProduct = view.tv_name_product
-
         fun bindView(product: Product) {
             nameProduct.text = product.productName
+            configCompleted(product)
+
+        }
+
+        private fun configCompleted(product: Product) {
+            if (product.completed == 1) {
+                DrawableCompat.setTint(
+                    DrawableCompat.wrap(itemView.im_complete.drawable),
+                    ContextCompat.getColor(itemView.context, R.color.colorCompleted)
+                )
+            } else {
+                DrawableCompat.setTint(
+                    DrawableCompat.wrap(itemView.im_complete.drawable),
+                    ContextCompat.getColor(itemView.context, R.color.colorNotCompleted)
+                )
+            }
         }
     }
 }

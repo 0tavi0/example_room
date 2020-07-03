@@ -88,9 +88,7 @@ class MainActivity : AppCompatActivity() {
 
         dialog.setView(edit)
         dialog.setPositiveButton("Salvar") { _, _ ->
-
-            val product = Product(edit.text.toString())
-            viewModel.saveProduct(product)
+            viewModel.saveProduct(edit.text.toString())
         }
         dialog.setNegativeButton("Cancel") { _, _ -> null }
 
