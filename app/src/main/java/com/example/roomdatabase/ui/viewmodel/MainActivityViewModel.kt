@@ -5,7 +5,6 @@ import androidx.lifecycle.*
 import com.example.roomdatabase.model.Product
 import com.example.roomdatabase.repository.ProductRepository
 import kotlinx.coroutines.launch
-import java.lang.Exception
 
 class MainActivityViewModel(private val productRepository: ProductRepository) : ViewModel() {
     private val _listProducts = MutableLiveData<List<Product>>()
@@ -16,24 +15,29 @@ class MainActivityViewModel(private val productRepository: ProductRepository) : 
             try {
                 val listProducts = productRepository.createProduct(product)
                 _listProducts.value = listProducts
-
-            }catch (e: Exception){
-                Log.e("Erro","$e")
+            } catch (e: Exception) {
+                Log.e("Erro", "$e")
             }
 
         }
     }
 
-    fun getAll(){
+    fun getAll() {
         viewModelScope.launch {
             try {
                 _listProducts.value = productRepository.getAll()
-
-            }catch (e:Exception){
-                Log.e("Erro","$e")
-
+            } catch (e: Exception) {
+                Log.e("Erro", "$e")
             }
         }
+    }
+
+    fun productSize(): Int {
+        return _listProducts.value?.size ?: 0
+    }
+
+    fun productItem(position: Int): Product {
+        return _listProducts.value!![position]
     }
 
     class MainActivityViewModelFactory(private val productRepository: ProductRepository) :
