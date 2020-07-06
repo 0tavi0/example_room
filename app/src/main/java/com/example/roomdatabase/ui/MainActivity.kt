@@ -2,8 +2,10 @@ package com.example.roomdatabase.ui
 
 import android.os.Bundle
 import android.view.View
+import android.view.WindowManager
 import android.widget.EditText
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -39,9 +41,15 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        setSupportActionBar(toolbar)
+        window.setFlags(
+            WindowManager.LayoutParams.FLAG_FULLSCREEN,
+            WindowManager.LayoutParams.FLAG_FULLSCREEN
+        )
+        supportActionBar?.hide();
+
         observer()
         setupRecycler()
+
 
         fab.setOnClickListener {
             openDialogAddTodo()
@@ -88,14 +96,20 @@ class MainActivity : AppCompatActivity() {
 
         dialog.setView(edit)
         dialog.setPositiveButton("Salvar") { _, _ ->
+            if (edit.text.isNullOrEmpty()) {
+                Toast.makeText(this, "Campo vazio", Toast.LENGTH_SHORT).show()
+                return@setPositiveButton
+            }
 
-            val product = Product(edit.text.toString())
-            viewModel.saveProduct(product)
+            viewModel.saveProduct(edit.text.toString())
         }
         dialog.setNegativeButton("Cancel") { _, _ -> null }
 
         dialog.show()
     }
 
+    private fun deleteDialog() {
+
+    }
 
 }

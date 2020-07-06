@@ -13,4 +13,10 @@ interface ProductDao {
 
     @Query("SELECT * FROM produtos ORDER BY id")
     suspend fun getItems(): List<ProductEntity>
+
+    @Query("UPDATE produtos SET completed = 1 WHERE id = :id")
+    suspend fun markCompleted(id: Int)
+
+    @Query("DELETE FROM produtos WHERE id = :id ")
+    suspend fun deleteProduct(id: Int)
 }

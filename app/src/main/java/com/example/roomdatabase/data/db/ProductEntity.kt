@@ -8,20 +8,24 @@ import com.example.roomdatabase.model.Product
 data class ProductEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
-    val nameProduct: String
+    val nameProduct: String,
+    val completed: Int = 0
 )
 
 //Extension Convert to productEntity
 fun Product.toProductEntity(): ProductEntity {
     return with(this) {
         ProductEntity(
-            nameProduct = this.productName
+            nameProduct = this.productName,
+            completed = this.completed
         )
     }
 }
 
-fun ProductEntity.toProduct() : Product{
+fun ProductEntity.toProduct(): Product {
     return Product(
-        productName = this.nameProduct
+        id = this.id,
+        productName = this.nameProduct,
+        completed = this.completed
     )
 }
