@@ -51,6 +51,17 @@ class MainActivityViewModel(private val productRepository: ProductRepository) : 
 
         }
     }
+    fun deleteProduct(product: Product) {
+        viewModelScope.launch {
+            try {
+                _listProducts.value = productRepository.deleteProduct(product)
+            } catch (e: Exception) {
+                Log.e("Erro", "$e")
+
+            }
+
+        }
+    }
 
     class MainActivityViewModelFactory(private val productRepository: ProductRepository) :
         ViewModelProvider.Factory {

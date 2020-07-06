@@ -27,4 +27,9 @@ class ProductDbDataSource(
         productDao.markCompleted(product.id.toInt())
         return getAll()
     }
+
+    override suspend fun deleteProduct(product: Product): List<Product> {
+        productDao.deleteProduct(product.id.toInt())
+        return getAll()
+    }
 }
